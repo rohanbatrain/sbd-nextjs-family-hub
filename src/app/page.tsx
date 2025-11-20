@@ -1,6 +1,7 @@
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Users, Calendar, Coins, Shield, Heart, MessageCircle } from "lucide-react";
 
 export default function Home() {
@@ -91,7 +92,7 @@ export default function Home() {
                 </div>
                 <CardTitle>Private & Secure</CardTitle>
                 <CardDescription>
-                  Your family's data is encrypted and protected with enterprise-grade security.
+                  Your family&apos;s data is encrypted and protected with enterprise-grade security.
                 </CardDescription>
               </CardHeader>
             </Card>

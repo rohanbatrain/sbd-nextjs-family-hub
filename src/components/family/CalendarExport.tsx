@@ -35,9 +35,16 @@ export function CalendarExport({ familyId, startDate, endDate }: CalendarExportP
             link.click();
             link.remove();
             window.URL.revokeObjectURL(url);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Failed to export calendar:', error);
-            alert(error.response?.data?.detail || 'Failed to export calendar');
+            // Attempt to access error.response safely if it's an AxiosError or similar
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            if (typeof error === 'object' && error !== null && 'response' in error && typeof (error as any).response?.data?.detail === 'string') {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                alert((error as any).response.data.detail);
+            } else {
+                alert('Failed to export calendar');
+            }
         } finally {
             setLoading(false);
         }

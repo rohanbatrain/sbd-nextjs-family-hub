@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -56,7 +55,6 @@ interface CreateCalendarEventDialogProps {
 export function CreateCalendarEventDialog({ onEventCreated, defaultDate }: CreateCalendarEventDialogProps) {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
 
     const form = useForm<CalendarEventFormData>({
         resolver: zodResolver(calendarEventSchema),
@@ -81,9 +79,10 @@ export function CreateCalendarEventDialog({ onEventCreated, defaultDate }: Creat
             form.reset();
             onEventCreated?.();
             // router.refresh(); // Uncomment if using Next.js router
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Failed to create event:', error);
-            alert(error.response?.data?.detail || 'Failed to create event');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            alert((error as any).response?.data?.detail || 'Failed to create event');
         } finally {
             setLoading(false);
         }
@@ -212,7 +211,7 @@ export function CreateCalendarEventDialog({ onEventCreated, defaultDate }: Creat
                                 <FormItem>
                                     <FormLabel>Reminder</FormLabel>
                                     <Select
-                                        onValueChange={(v) => field.onChange(parseInt(v))}
+                                        onValueChange={(val) => field.onChange(parseInt(val))}
                                         defaultValue={field.value?.toString()}
                                     >
                                         <FormControl>

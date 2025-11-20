@@ -33,7 +33,8 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { api, endpoints } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
+import { api } from '@/lib/api';
 import { ArrowRightLeft, Loader2 } from 'lucide-react';
 
 const transferSchema = z.object({
@@ -53,6 +54,7 @@ export function TokenTransferDialog({ familyMembers, onTransferComplete }: Token
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { toast } = useToast();
 
     const form = useForm<TransferFormData>({
         resolver: zodResolver(transferSchema),
@@ -78,9 +80,14 @@ export function TokenTransferDialog({ familyMembers, onTransferComplete }: Token
             form.reset();
             onTransferComplete?.();
             router.refresh();
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Failed to transfer tokens:', error);
-            alert(error.response?.data?.detail || 'Failed to transfer tokens');
+            toast({
+                title: "Error",
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                description: (error as any).response?.data?.detail || 'Failed to transfer tokens',
+                variant: "destructive",
+            });
         } finally {
             setLoading(false);
         }

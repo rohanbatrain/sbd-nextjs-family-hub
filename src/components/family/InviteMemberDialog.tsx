@@ -32,6 +32,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { api, endpoints } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
 import { UserPlus, Loader2 } from 'lucide-react';
 
 const inviteSchema = z.object({
@@ -50,6 +51,7 @@ export function InviteMemberDialog({ familyId, onInviteSent }: InviteMemberDialo
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { toast } = useToast();
 
     const form = useForm<InviteFormData>({
         resolver: zodResolver(inviteSchema),
@@ -68,9 +70,14 @@ export function InviteMemberDialog({ familyId, onInviteSent }: InviteMemberDialo
             form.reset();
             onInviteSent?.();
             router.refresh();
-        } catch (error: any) {
-            console.error('Failed to send invitation:', error);
-            alert(error.response?.data?.detail || 'Failed to send invitation');
+        } catch (error: unknown) {
+            console.error(error);
+            toast({
+                title: "Error",
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                description: (error as any).response?.data?.detail || "Failed to send invitation. Please try again.",
+                variant: "destructive",
+            });
         } finally {
             setLoading(false);
         }

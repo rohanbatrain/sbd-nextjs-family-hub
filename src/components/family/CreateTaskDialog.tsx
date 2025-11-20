@@ -26,6 +26,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { api, endpoints } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
 import { Plus, Loader2 } from 'lucide-react';
 
 const taskSchema = z.object({
@@ -46,6 +47,7 @@ export function CreateTaskDialog({ onTaskCreated }: CreateTaskDialogProps) {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { toast } = useToast();
 
     const form = useForm<TaskFormData>({
         resolver: zodResolver(taskSchema),
@@ -67,9 +69,14 @@ export function CreateTaskDialog({ onTaskCreated }: CreateTaskDialogProps) {
             form.reset();
             onTaskCreated?.();
             router.refresh();
-        } catch (error: any) {
-            console.error('Failed to create task:', error);
-            alert(error.response?.data?.detail || 'Failed to create task');
+        } catch (error: unknown) {
+            console.error(error);
+            toast({
+                title: "Error",
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                description: (error as any).response?.data?.detail || "Failed to create task. Please try again.",
+                variant: "destructive",
+            });
         } finally {
             setLoading(false);
         }

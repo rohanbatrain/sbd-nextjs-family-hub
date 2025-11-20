@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { api, endpoints } from '@/lib/api';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { CreateTaskDialog } from '@/components/family/CreateTaskDialog';
 import { KanbanBoard } from '@/components/family/KanbanBoard';
-import { CheckCircle2, Circle, Coins, Calendar, Tag, ListTodo, LayoutGrid, Filter, ArrowRight } from 'lucide-react';
+import { CheckCircle2, Circle, Filter, LayoutGrid, Tag, Coins, Calendar, ArrowRight, ListTodo } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 interface Task {
@@ -74,9 +80,10 @@ export default function TasksPage() {
             setTasks(tasks.map(t =>
                 t.task_id === taskId ? { ...t, status: 'completed' as const } : t
             ));
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Failed to complete task:', error);
-            alert(error.response?.data?.detail || 'Failed to complete task');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            alert((error as any).response?.data?.detail || 'Failed to complete task');
         }
     };
 

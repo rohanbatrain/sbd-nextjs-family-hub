@@ -54,4 +54,38 @@ export const endpoints = {
         complete: (taskId: string) => `/family/tasks/${taskId}/complete`, // ✅ POST complete task
         subtasks: (taskId: string) => `/family/tasks/${taskId}/subtasks`, // ✅ GET/POST subtasks
     },
+    // ✅ Extended features - NEW ENDPOINTS
+    photos: {
+        upload: (familyId: string) => `/family/${familyId}/photos`,
+        list: (familyId: string) => `/family/${familyId}/photos`,
+        delete: (familyId: string, photoId: string) => `/family/${familyId}/photos/${photoId}`,
+    },
+    shopping: {
+        lists: (familyId: string) => `/family/${familyId}/shopping-lists`,
+        create: (familyId: string) => `/family/${familyId}/shopping-lists`,
+        update: (familyId: string, listId: string) => `/family/${familyId}/shopping-lists/${listId}`,
+    },
+    meals: {
+        plans: (familyId: string) => `/family/${familyId}/meal-plans`,
+        create: (familyId: string) => `/family/${familyId}/meal-plans`,
+    },
+    chores: {
+        rotations: (familyId: string) => `/family/${familyId}/chores`,
+        create: (familyId: string) => `/family/${familyId}/chores`,
+    },
+    goals: {
+        list: (familyId: string) => `/family/${familyId}/goals`,
+        create: (familyId: string) => `/family/${familyId}/goals`,
+        update: (familyId: string, goalId: string) => `/family/${familyId}/goals/${goalId}`,
+    },
+    tokens: {
+        rules: (familyId: string) => `/family/${familyId}/token-rules`,
+        createRule: (familyId: string) => `/family/${familyId}/token-rules`,
+        rewards: (familyId: string) => `/family/${familyId}/rewards`,
+        createReward: (familyId: string) => `/family/${familyId}/rewards`,
+        purchaseReward: (familyId: string, rewardId: string) => `/family/${familyId}/rewards/${rewardId}/purchase`,
+        transactions: (familyId: string) => `/family/${familyId}/token-transactions`,
+        allowances: (familyId: string) => `/family/${familyId}/allowances`,
+        createAllowance: (familyId: string) => `/family/${familyId}/allowances`,
+    },
 };
