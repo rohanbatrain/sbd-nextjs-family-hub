@@ -44,11 +44,14 @@ export const endpoints = {
         create: '/family/calendar/events',                              // ✅ POST create event
         update: (eventId: string) => `/family/calendar/events/${eventId}`, // ✅ PUT update event
         delete: (eventId: string) => `/family/calendar/events/${eventId}`, // ✅ DELETE event
+        export: (familyId: string) => `/family/${familyId}/calendar/export`, // ✅ GET iCal export
+        checkConflicts: '/family/calendar/events/check-conflicts',      // ✅ POST check conflicts
     },
     tasks: {
         list: '/family/tasks',                                          // ✅ GET tasks
         create: '/family/tasks',                                        // ✅ POST create task
         update: (taskId: string) => `/family/tasks/${taskId}`,          // ✅ PUT update task
         complete: (taskId: string) => `/family/tasks/${taskId}/complete`, // ✅ POST complete task
+        subtasks: (taskId: string) => `/family/tasks/${taskId}/subtasks`, // ✅ GET/POST subtasks
     },
 };
