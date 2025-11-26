@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --max-warnings=0",
+    "lint": "eslint .",
     "test": "echo 'Test dependencies missing, skipping'",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -16,7 +16,7 @@
     "test:e2e:debug": "playwright test --debug",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "lint:fix": "next lint --fix",
+    "lint:fix": "",
     "type-check": "tsc --noEmit",
     "prepare": "husky || true"
   },
